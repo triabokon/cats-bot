@@ -21,5 +21,7 @@ yarl==1.4.2
 idna-ssl==1.1.0
 idna==2.8
 
+typing-extensions==3.7.4.3 # TODO: remove it
+
 # babel requirements
 pytz==2020.1

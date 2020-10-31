@@ -8,6 +8,9 @@ RUN apt-get update && \
 WORKDIR /work
 
 COPY requirements.txt /work/
+COPY app.py /work/
 RUN pip3 install --no-cache-dir --no-dependencies -r requirements.txt
+
+EXPOSE 8080
 
 CMD python3 app.py
