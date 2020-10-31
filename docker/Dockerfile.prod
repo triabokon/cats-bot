@@ -1,0 +1,13 @@
+FROM python:3.8.1-slim
+
+COPY docker/ubuntu-deps.txt /tmp
+RUN apt-get update && \
+    apt-get install -y `grep -v '#' /tmp/ubuntu-deps.txt | xargs` && \
+    rm -fr /var/lib/apt/lists/*
+
+WORKDIR /work
+
+COPY requirements.txt /work/
+RUN pip3 install --no-cache-dir --no-dependencies -r requirements.txt
+
+CMD python3 app.py
