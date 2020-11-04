@@ -16,9 +16,9 @@ jobs:
         registry: docker.pkg.github.com
         username: ${{ secrets.GH_USERNAME }}
         password: ${{ secrets.GITHUB_TOKEN }}
-        dockerfile: /docker/Dockerfile.prod
+        dockerfile: docker/Dockerfile.prod
         tags: latest
-    - name: Deploy package to digitalocean
+    - name: Deploy package to Vultr
       uses: appleboy/ssh-action@master
       env:
           GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
