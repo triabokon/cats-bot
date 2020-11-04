@@ -1,0 +1,36 @@
+name: build
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Publish to Github Packages Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: ${{ secrets.GITHUB_USERNAME }}/cats-bot/catsbot
+        registry: docker.pkg.github.com
+        username: ${{ secrets.GITHUB_USERNAME }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        dockerfile: /docker/Dockerfile.prod
+        tags: latest
+    - name: Deploy package to digitalocean
+      uses: appleboy/ssh-action@master
+      env:
+          GITHUB_USERNAME: ${{ secrets.GH_USERNAME }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.HOST_USERNAME }}
+        key: ${{ secrets.ID_RSA }}
+        port: ${{ secrets.PORT }}
+        envs: GITHUB_USERNAME, GITHUB_TOKEN
+        script: |
+          podman stop $(podman ps -a -q)
+          podman login podman.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
+          podman pull podman.pkg.github.com/${{ secrets.GITHUB_USERNAME }}/cats-bot/catsbot:latest
+          podman run -dit -p 80:80 podman.pkg.github.com/${{ secrets.GITHUB_USERNAME }}/cats-bot/catsbot:latest
