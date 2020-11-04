@@ -12,9 +12,9 @@ jobs:
     - name: Publish to Github Packages Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: ${{ secrets.GITHUB_USERNAME }}/cats-bot/catsbot
+        name: ${{ secrets.GH_USERNAME }}/cats-bot/catsbot
         registry: docker.pkg.github.com
-        username: ${{ secrets.GITHUB_USERNAME }}
+        username: ${{ secrets.GH_USERNAME }}
         password: ${{ secrets.GITHUB_TOKEN }}
         dockerfile: /docker/Dockerfile.prod
         tags: latest
