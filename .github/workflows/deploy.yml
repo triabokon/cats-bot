@@ -31,7 +31,8 @@ jobs:
         port: ${{ secrets.PORT }}
         envs: GITHUB_USERNAME, GITHUB_TOKEN
         script: |
-          sudo podman stop $(podman ps -a -q)
+          sudo podman stop $(sudo podman ps -a -q)
+          sudo podman system prune -af
           sudo podman login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
           sudo podman pull docker.pkg.github.com/${{ secrets.GH_USERNAME }}/cats-bot/catsbot:latest
-          sudo podman run -dit -p 80:80 docker.pkg.github.com/${{ secrets.GH_USERNAME }}/cats-bot/catsbot:latest
+          sudo podman run -dit docker.pkg.github.com/${{ secrets.GH_USERNAME }}/cats-bot/catsbot:latest
