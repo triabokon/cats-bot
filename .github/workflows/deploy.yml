@@ -35,4 +35,4 @@ jobs:
           sudo podman system prune -af
           sudo podman login docker.pkg.github.com -u $GITHUB_USERNAME -p $GITHUB_TOKEN
           sudo podman pull docker.pkg.github.com/${{ secrets.GH_USERNAME }}/cats-bot/catsbot:latest
-          sudo podman run -d -p 8000:8000 docker.pkg.github.com/${{ secrets.GH_USERNAME }}/cats-bot/catsbot:latest
+          sudo podman run -d --network host -p 8000:8000 docker.pkg.github.com/${{ secrets.GH_USERNAME }}/cats-bot/catsbot:latest
